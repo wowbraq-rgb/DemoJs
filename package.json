@@ -1,0 +1,10 @@
+{
+  "name": "semana-11-marketplace-asincrono",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Marketplace educativo con promesas, async/await, fetch y Node.js",
+  "scripts": {
+    "start": "node servidor.js",
+    "check": "node --check calculos.js && node --check servidor.js"
+  }
+}

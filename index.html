@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semana 11 JavaScript | Asincronía y Node.js</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="encabezado" id="inicio"><div class="contenedor">
+        <p class="semana">Semana 11 JavaScript</p><h1>MarketPlace Creativo</h1>
+        <p>Promesas, async/await, PokéAPI y un primer servidor con Node.js.</p>
+    </div></header>
+
+    <nav class="navegacion" aria-label="Navegación principal"><div class="contenedor menu">
+        <a href="#inicio">Inicio</a><a href="#productos">Productos</a><a href="#carrito">Carrito</a>
+        <a href="#pokemon">PokéAPI</a><a href="#correo">Correo async</a><a href="#calculadora">Calculadora</a>
+    </div></nav>
+
+    <main>
+        <section class="presentacion"><div class="contenedor"><h2>Productos destacados</h2>
+            <p>Agrega productos al carrito y observa cómo JavaScript modifica el DOM.</p>
+        </div></section>
+
+        <section id="productos" class="productos"><div class="contenedor"><div class="lista-productos">
+            <article class="tarjeta-producto" data-nombre="Computador portátil" data-precio="2000000" data-stock="3">
+                <div class="producto-imagen" aria-hidden="true">💻</div><h3>Computador portátil</h3>
+                <p>Equipo recomendado para estudiar, programar y trabajar.</p><p class="precio">$2.000.000</p>
+                <p class="stock">Stock: <span>3</span></p><button class="boton boton-comprar" type="button">Agregar al carrito</button>
+            </article>
+            <article class="tarjeta-producto" data-nombre="Audífonos inalámbricos" data-precio="150000" data-stock="5">
+                <div class="producto-imagen" aria-hidden="true">🎧</div><h3>Audífonos inalámbricos</h3>
+                <p>Audífonos Bluetooth con sonido de alta calidad.</p><p class="precio">$150.000</p>
+                <p class="stock">Stock: <span>5</span></p><button class="boton boton-comprar" type="button">Agregar al carrito</button>
+            </article>
+            <article class="tarjeta-producto" data-nombre="Teclado mecánico" data-precio="200000" data-stock="4">
+                <div class="producto-imagen" aria-hidden="true">⌨️</div><h3>Teclado mecánico</h3>
+                <p>Teclado cómodo para programación, estudio y videojuegos.</p><p class="precio">$200.000</p>
+                <p class="stock">Stock: <span>4</span></p><button class="boton boton-comprar" type="button">Agregar al carrito</button>
+            </article>
+        </div></div></section>
+
+        <section id="carrito" class="seccion-panel"><div class="contenedor panel">
+            <div><p class="etiqueta">Evento click + DOM</p><h2>Carrito dinámico</h2>
+                <p id="estadoCarrito" class="mensaje" aria-live="polite">El carrito está vacío.</p></div>
+            <ul id="listaCarrito" class="lista-interactiva"></ul>
+            <div class="resumen-carrito"><strong>Productos: <span id="cantidadCarrito">0</span></strong>
+                <strong>Total: <span id="totalCarrito">$0</span></strong>
+                <button id="btnVaciarCarrito" class="boton boton-secundario" type="button">Vaciar carrito</button>
+            </div>
+        </div></section>
+
+        <section id="pokemon" class="seccion-asincrona"><div class="contenedor panel-asincrono">
+            <div class="explicacion-asincrona">
+                <p class="etiqueta">fetch + async/await</p>
+                <h2>Busca un Pokémon en una API real</h2>
+                <p><code>fetch()</code> devuelve una promesa. La función espera primero la respuesta HTTP y después la conversión con <code>respuesta.json()</code>.</p>
+                <form id="formPokemon" class="form-async">
+                    <label for="nombrePokemon">Nombre o número del Pokémon</label>
+                    <div class="fila-formulario">
+                        <input id="nombrePokemon" type="text" value="pikachu" placeholder="Ej.: pikachu o 25" required>
+                        <button id="btnBuscarPokemon" class="boton" type="submit">Buscar</button>
+                    </div>
+                </form>
+                <p id="estadoPokemon" class="estado-async" aria-live="polite">Escribe un nombre y realiza la consulta.</p>
+            </div>
+            <article id="resultadoPokemon" class="pokemon-card" hidden>
+                <img id="imagenPokemon" alt="">
+                <div><p class="etiqueta">Resultado de PokéAPI</p><h3 id="pokemonNombre"></h3>
+                    <p>Altura: <span id="pokemonAltura"></span></p><p>Peso: <span id="pokemonPeso"></span></p>
+                    <p>Tipos: <span id="pokemonTipos"></span></p></div>
+            </article>
+        </div></section>
+
+        <section id="correo" class="seccion-panel"><div class="contenedor panel">
+            <div class="titulo-seccion"><p class="etiqueta">Promise + then/catch + async/await</p>
+                <h2>Confirmación de compra por correo</h2>
+                <p>La demostración simula un servicio externo que tarda dos segundos. No envía un correo real ni solicita credenciales.</p>
+            </div>
+            <form id="formCorreo" class="form-tarea">
+                <label for="correoCliente">Correo del cliente</label>
+                <input id="correoCliente" type="email" placeholder="cliente@ejemplo.com" required>
+                <div class="acciones-async"><button id="btnCorreoThen" class="boton boton-secundario" type="button">Enviar con .then()</button>
+                    <button id="btnEnviarCorreo" class="boton" type="submit">Enviar con async/await</button></div>
+            </form>
+            <div class="flujo-promesa" aria-label="Estados de una promesa">
+                <span>1. pending</span><span>2. fulfilled</span><span>3. rejected</span>
+            </div>
+            <p id="estadoCorreo" class="estado-async" aria-live="polite">Agrega productos al carrito y escribe un correo.</p>
+        </div></section>
+
+        <section id="calculadora" class="seccion-calculadora"><div class="contenedor">
+            <div class="titulo-seccion"><p class="etiqueta">Funciones conectadas al DOM</p><h2>Calculadora del marketplace</h2>
+                <p>Los valores se leen con <code>.value</code> y los resultados se escriben con <code>.textContent</code>.</p>
+            </div>
+            <div class="lista-calculos">
+                <form id="formDescuento" class="tarjeta-calculo"><h3>Calcular descuento</h3>
+                    <label for="precioDescuento">Precio del producto</label><input id="precioDescuento" type="number" min="0" value="20000" required>
+                    <label for="porcentajeDescuento">Porcentaje de descuento</label><input id="porcentajeDescuento" type="number" min="0" max="100" value="10" required>
+                    <button class="boton boton-calculo" type="submit">Calcular descuento</button>
+                    <p id="resultadoDescuento" class="resultado" aria-live="polite">Resultado: pendiente</p>
+                </form>
+                <form id="formImpuesto" class="tarjeta-calculo"><h3>Calcular impuesto</h3>
+                    <label for="precioImpuesto">Precio del producto</label><input id="precioImpuesto" type="number" min="0" value="20000" required>
+                    <label for="porcentajeImpuesto">Porcentaje de impuesto</label><input id="porcentajeImpuesto" type="number" min="0" value="19" required>
+                    <button class="boton boton-calculo" type="submit">Calcular impuesto</button>
+                    <p id="resultadoImpuesto" class="resultado" aria-live="polite">Resultado: pendiente</p>
+                </form>
+                <form id="formTotal" class="tarjeta-calculo"><h3>Total del pedido</h3>
+                    <label for="precioUnitario">Precio unitario</label><input id="precioUnitario" type="number" min="0" value="15000" required>
+                    <label for="cantidad">Cantidad</label><input id="cantidad" type="number" min="1" value="3" required>
+                    <label for="costoEnvio">Costo del envío</label><input id="costoEnvio" type="number" min="0" value="5000" required>
+                    <button class="boton boton-calculo" type="submit">Calcular total</button>
+                    <p id="resultadoTotal" class="resultado" aria-live="polite">Resultado: pendiente</p>
+                </form>
+            </div>
+        </div></section>
+
+        <section id="tareas" class="seccion-panel"><div class="contenedor panel">
+            <div class="titulo-seccion"><p class="etiqueta">Formulario + createElement</p><h2>Lista de tareas de compra</h2>
+                <p>Agrega una tarea, haz clic en su texto para completarla o elimínala.</p></div>
+            <form id="formTarea" class="form-tarea"><label for="inputTarea">Nueva tarea</label>
+                <div class="fila-formulario"><input id="inputTarea" type="text" maxlength="60" placeholder="Ej.: comparar precios" autocomplete="off">
+                    <button class="boton" type="submit">Agregar</button></div>
+                <small id="contadorCaracteres">0/60 caracteres</small><p id="errorTarea" class="error" aria-live="polite"></p>
+            </form>
+            <p id="contadorPendientes" class="contador">No hay tareas pendientes.</p><ul id="listaTareas" class="lista-interactiva"></ul>
+        </div></section>
+    </main>
+
+    <footer class="pie-pagina"><div class="contenedor"><h2>MarketPlace Creativo</h2>
+        <p>Proyecto de la Semana 11: asincronía, APIs y Node.js.</p></div></footer>
+    <script type="module" src="calculos.js"></script>
+</body>
+</html>
