@@ -1,5 +1,4 @@
 // Semana 11: DOM y eventos conectados con promesas, async/await y fetch.
-import {ejecutarPromesaLog}  from "./EjecutarLog.js";
 
 
 function calcularPrecioConDescuento(precio, porcentaje) {
@@ -156,14 +155,25 @@ function crearTarea(textoTarea) {
     texto.addEventListener("keydown", function (event) {
         if (event.key === "Enter" || event.key === " ") { event.preventDefault(); alternar(); }
     });
-    boton.addEventListener("click", function () { item.remove(); actualizarContadorPendientes(); });
+    boton.addEventListener("click", function () { 
+        
+        registrarLog.then(() => {
+            console.log("Tarea eliminada:", textoTarea, "Hora:", new Date().toLocaleString());
+        }).catch((error) => {
+            console.error("Error en el registro de eliminación de tarea:", error);
+        });
+        item.remove(); 
+        
+        
+        
+        actualizarContadorPendientes(); });
     item.appendChild(texto);
     item.appendChild(boton);
     listaTareas.appendChild(item);
     actualizarContadorPendientes();
 }
 
-formTarea.addEventListener("submit", function (event) {       
+formTarea.addEventListener("submit",  function (event) {       
     event.preventDefault();
     const texto = inputTarea.value.trim();
     if (texto === "") {
@@ -171,12 +181,26 @@ formTarea.addEventListener("submit", function (event) {
         inputTarea.focus();
         return;
     }
-    ejecutarPromesaLog(texto); // Llamada a la función asíncrona para ejecutar la promesa y manejar el resultado
+     registrarLog.then(() => {
+        console.log("Registro de tarea completado.");
+    }).catch((error) => {
+        console.error("Error en el registro de tarea:", error);
+    });
+    
+
     errorTarea.textContent = "";
     crearTarea(texto);
     inputTarea.value = "";
     contadorCaracteres.textContent = "0/60 caracteres";
     inputTarea.focus();
+    
+});
+
+  const registrarLog = new Promise(function (resolve, reject) {
+    setTimeout(() => {
+        console.log("Tarea agregada:", "Hora:", new Date().toLocaleString());
+        resolve();
+    }, 15000);
     
 });
 
@@ -245,12 +269,14 @@ function enviarCorreoConfirmacion(correo, resumenCompra) {
                 reject(new Error("El carrito está vacío."));
                 return;
             }
-            resolve({
+            resolve(
+                {
                 destinatario: correo,
                 asunto: "Confirmación de compra",
                 mensaje: `Pedido confirmado: ${resumenCompra.cantidad} producto(s) por ${formatoMoneda.format(resumenCompra.total)}.`
-            });
-        }, 2000);
+            }
+        );
+        }, 10000);
     });
 }
 

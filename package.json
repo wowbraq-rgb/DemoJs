@@ -1,10 +1,12 @@
 {
-  "name": "semana-11-marketplace-asincrono",
+  "name": "demojs",
   "version": "1.0.0",
-  "private": true,
-  "description": "Marketplace educativo con promesas, async/await, fetch y Node.js",
+  "description": "Este proyecto parte de **Semana 10 JS**. Conserva el marketplace, carrito, calculadoras y lista de tareas, y agrega ejemplos completos de promesas, `async/await`, `fetch`, manejo de errores y un servidor local con Node.js.",
+  "main": "calculos.js",
   "scripts": {
-    "start": "node servidor.js",
-    "check": "node --check calculos.js && node --check servidor.js"
-  }
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
