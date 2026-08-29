@@ -1,4 +1,4 @@
-// Semana 11: DOM y eventos conectados con promesas, async/await y fetch.
+// Semana 12: laboratorio de cierre de brechas sobre el marketplace acumulativo.
 
 
 function calcularPrecioConDescuento(precio, porcentaje) {
@@ -140,8 +140,18 @@ function actualizarContadorPendientes() {
         : `Te ${pendientes === 1 ? "queda" : "quedan"} ${pendientes} ${pendientes === 1 ? "tarea pendiente" : "tareas pendientes"}.`;
 }
 
-function crearTarea(textoTarea) {
+function guardarTareas() {
+    const tareas = [...listaTareas.querySelectorAll("li")].map((item) => ({
+        texto: item.querySelector("span").textContent,
+        completada: item.classList.contains("completada")
+    }));
+    localStorage.setItem("semana12-tareas", JSON.stringify(tareas));
+}
+
+function crearTarea(textoTarea, completada = false, guardar = true) {
     const item = document.createElement("li");
+    item.className = "tarea";
+    if (completada) item.classList.add("completada");
     const texto = document.createElement("span");
     const boton = document.createElement("button");
     texto.textContent = textoTarea;
@@ -150,27 +160,26 @@ function crearTarea(textoTarea) {
     boton.textContent = "Eliminar";
     boton.type = "button";
     boton.className = "boton-eliminar";
-    const alternar = () => { item.classList.toggle("completada"); actualizarContadorPendientes(); };
+    const alternar = () => {
+        item.classList.toggle("completada");
+        actualizarContadorPendientes();
+        guardarTareas();
+        aplicarFiltroTareas(filtroTareasActual);
+    };
     texto.addEventListener("click", alternar);
     texto.addEventListener("keydown", function (event) {
         if (event.key === "Enter" || event.key === " ") { event.preventDefault(); alternar(); }
     });
-    boton.addEventListener("click", function () { 
-        
-        registrarLog.then(() => {
-            console.log("Tarea eliminada:", textoTarea, "Hora:", new Date().toLocaleString());
-        }).catch((error) => {
-            console.error("Error en el registro de eliminación de tarea:", error);
-        });
-        item.remove(); 
-        
-        
-        
-        actualizarContadorPendientes(); });
+    boton.addEventListener("click", function () {
+        item.remove();
+        actualizarContadorPendientes();
+        guardarTareas();
+    });
     item.appendChild(texto);
     item.appendChild(boton);
     listaTareas.appendChild(item);
     actualizarContadorPendientes();
+    if (guardar) guardarTareas();
 }
 
 formTarea.addEventListener("submit",  function (event) {       
@@ -181,26 +190,11 @@ formTarea.addEventListener("submit",  function (event) {
         inputTarea.focus();
         return;
     }
-     registrarLog.then(() => {
-        console.log("Registro de tarea completado.");
-    }).catch((error) => {
-        console.error("Error en el registro de tarea:", error);
-    });
-    
-
     errorTarea.textContent = "";
     crearTarea(texto);
     inputTarea.value = "";
     contadorCaracteres.textContent = "0/60 caracteres";
     inputTarea.focus();
-    
-});
-
-  const registrarLog = new Promise(function (resolve, reject) {
-    setTimeout(() => {
-        console.log("Tarea agregada:", "Hora:", new Date().toLocaleString());
-        resolve();
-    }, 15000);
     
 });
 
@@ -211,6 +205,27 @@ inputTarea.addEventListener("input", function (event) {
 
 actualizarResumenCarrito();
 actualizarContadorPendientes();
+
+let filtroTareasActual = "todas";
+
+function aplicarFiltroTareas(filtro) {
+    filtroTareasActual = filtro;
+    listaTareas.querySelectorAll(".tarea").forEach((item) => {
+        const completada = item.classList.contains("completada");
+        item.hidden = (filtro === "pendientes" && completada) || (filtro === "completadas" && !completada);
+    });
+}
+
+document.querySelectorAll("[data-filtro]").forEach((boton) => {
+    boton.addEventListener("click", function () {
+        document.querySelectorAll("[data-filtro]").forEach((actual) => actual.classList.remove("filtro-activo"));
+        boton.classList.add("filtro-activo");
+        aplicarFiltroTareas(boton.dataset.filtro);
+    });
+});
+
+JSON.parse(localStorage.getItem("semana12-tareas") || "[]")
+    .forEach((tarea) => crearTarea(tarea.texto, tarea.completada, false));
 
 // PokéAPI: fetch devuelve una promesa y respuesta.json() devuelve otra.
 const formPokemon = document.querySelector("#formPokemon");
@@ -335,4 +350,84 @@ formCorreo.addEventListener("submit", async function (event) {
     } finally {
         finalizarEstadoCorreo();
     }
+});
+
+// Diagnóstico local: equivalente individual del semáforo propuesto en la guía.
+const selectoresDominio = document.querySelectorAll("#semaforoDominio select");
+const resumenDiagnostico = document.querySelector("#resumenDiagnostico");
+
+function actualizarDiagnostico() {
+    const diagnostico = {};
+    selectoresDominio.forEach((selector) => { diagnostico[selector.dataset.tema] = selector.value; });
+    localStorage.setItem("semana12-diagnostico", JSON.stringify(diagnostico));
+    const reforzar = Object.entries(diagnostico).filter(([, estado]) => estado !== "verde").map(([tema]) => tema);
+    resumenDiagnostico.textContent = reforzar.length
+        ? `Prioridad de práctica: ${reforzar.join(", ")}.`
+        : "Los cuatro temas están en verde: intenta los retos extendidos.";
+}
+
+const diagnosticoGuardado = JSON.parse(localStorage.getItem("semana12-diagnostico") || "{}");
+selectoresDominio.forEach((selector) => {
+    if (diagnosticoGuardado[selector.dataset.tema]) selector.value = diagnosticoGuardado[selector.dataset.tema];
+    selector.addEventListener("change", actualizarDiagnostico);
+});
+actualizarDiagnostico();
+
+// Bloque 1: coerción, typeof, validación y operadores correctos.
+document.querySelector("#formRetoSintaxis").addEventListener("submit", function (event) {
+    event.preventDefault();
+    const precioTexto = document.querySelector("#retoPrecio").value.trim();
+    const porcentajeTexto = document.querySelector("#retoPorcentaje").value.trim();
+    const precio = Number(precioTexto);
+    const porcentaje = Number(porcentajeTexto);
+    const salida = document.querySelector("#resultadoRetoSintaxis");
+    if (!Number.isFinite(precio) || !Number.isFinite(porcentaje) || precio < 0 || porcentaje < 0 || porcentaje > 100) {
+        salida.textContent = `Entrada inválida: precio es ${typeof precioTexto} y debe convertirse a un número válido.`;
+        return;
+    }
+    const total = calcularPrecioConDescuento(precio, porcentaje);
+    salida.textContent = `Correcto: ${formatoMoneda.format(total)}. Number() evitó concatenar texto y const mantuvo valores estables.`;
+});
+
+// Bloque 3: modificación visible de CSS Grid.
+document.querySelector("#columnasDemo").addEventListener("change", function (event) {
+    document.querySelector("#demoGrid").style.setProperty("--columnas-demo", event.target.value);
+});
+
+// Bloque 4: progreso y persistencia del checklist de publicación.
+const checksDeploy = document.querySelectorAll("#checklistDeploy input");
+const progresoDeploy = document.querySelector("#progresoDeploy");
+
+function actualizarDeploy() {
+    const completados = [...checksDeploy].filter((check) => check.checked).map((check) => check.value);
+    localStorage.setItem("semana12-deploy", JSON.stringify(completados));
+    progresoDeploy.textContent = `${completados.length} de ${checksDeploy.length} verificaciones completas${completados.length === checksDeploy.length ? ": listo para publicar." : "."}`;
+}
+
+const deployGuardado = JSON.parse(localStorage.getItem("semana12-deploy") || "[]");
+checksDeploy.forEach((check) => {
+    check.checked = deployGuardado.includes(check.value);
+    check.addEventListener("change", actualizarDeploy);
+});
+actualizarDeploy();
+
+// Plan personal: tres respuestas concretas guardadas en el navegador.
+const formPlan = document.querySelector("#formPlanBrecha");
+const planGuardado = JSON.parse(localStorage.getItem("semana12-plan") || "null");
+if (planGuardado) {
+    document.querySelector("#temaBrecha").value = planGuardado.tema;
+    document.querySelector("#aplicacionBrecha").value = planGuardado.aplicacion;
+    document.querySelector("#recursoBrecha").value = planGuardado.recurso;
+    document.querySelector("#estadoPlan").textContent = "Plan recuperado. Puedes editarlo y volver a guardarlo.";
+}
+
+formPlan.addEventListener("submit", function (event) {
+    event.preventDefault();
+    const plan = {
+        tema: document.querySelector("#temaBrecha").value,
+        aplicacion: document.querySelector("#aplicacionBrecha").value.trim(),
+        recurso: document.querySelector("#recursoBrecha").value.trim()
+    };
+    localStorage.setItem("semana12-plan", JSON.stringify(plan));
+    document.querySelector("#estadoPlan").textContent = `Plan guardado: reforzar ${plan.tema} aplicándolo en “${plan.aplicacion}” con apoyo de ${plan.recurso}.`;
 });

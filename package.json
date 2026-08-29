@@ -1,10 +1,11 @@
 {
   "name": "demojs",
   "version": "1.0.0",
-  "description": "Este proyecto parte de **Semana 10 JS**. Conserva el marketplace, carrito, calculadoras y lista de tareas, y agrega ejemplos completos de promesas, `async/await`, `fetch`, manejo de errores y un servidor local con Node.js.",
-  "main": "calculos.js",
+  "description": "Laboratorio de Semana 12 para diagnosticar y cerrar brechas de JavaScript, DOM, Grid y deploy.",
+  "main": "servidor.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node servidor.js",
+    "check": "node --check calculos.js && node --check servidor.js"
   },
   "keywords": [],
   "author": "",

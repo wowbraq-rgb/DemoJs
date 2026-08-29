@@ -287,6 +287,29 @@ body {
     }
 }
 
+/* Semana 12: laboratorio de cierre de brechas */
+.seccion-cierre { padding: 65px 20px; background: #e8eef7; }
+.grid-diagnostico { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.grid-diagnostico label, .checklist-deploy label { padding: 18px; border-radius: 9px; background: white; font-weight: bold; }
+.grid-diagnostico select, .reto-form input, .control-grid select, .plan-form input, .plan-form select, .plan-form textarea { width: 100%; margin-top: 8px; padding: 11px; border: 1px solid #b9c3d0; border-radius: 7px; font-size: 16px; }
+.reto-form, .plan-form { display: grid; gap: 12px; max-width: 720px; margin: 0 auto 22px; }
+.reto-form label, .plan-form label, .control-grid { font-weight: bold; }
+.codigo-error { max-width: 720px; margin: 22px auto; padding: 20px; overflow: auto; border-radius: 9px; background: #172844; color: #f8fafc; }
+.filtros-tareas { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+.filtros-tareas .boton { width: auto; }
+.filtro-activo { outline: 3px solid #198754; outline-offset: 2px; }
+.nota-reto { margin-top: 20px; text-align: center; font-weight: bold; }
+.control-grid { display: block; max-width: 350px; margin: 0 auto 22px; }
+.demo-grid { --columnas-demo: 3; display: grid; grid-template-columns: repeat(var(--columnas-demo), 1fr); gap: 16px; }
+.demo-grid article { padding: 28px; border-radius: 9px; background: #fff; box-shadow: 0 5px 14px rgba(0,0,0,.12); text-align: center; }
+.checklist-deploy { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.checklist-deploy input { width: 20px; height: 20px; margin-right: 10px; vertical-align: middle; }
+.plan-form textarea { min-height: 110px; resize: vertical; }
+.tarea[hidden] { display: none; }
+
+@media (max-width: 850px) { .grid-diagnostico { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .grid-diagnostico, .checklist-deploy { grid-template-columns: 1fr; } .demo-grid { grid-template-columns: 1fr; } }
+
 /* Semana 11: ejemplos asíncronos */
 .seccion-asincrona { padding: 70px 20px; background: #172844; color: white; }
 .panel-asincrono { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 32px; align-items: center; }

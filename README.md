@@ -1,91 +1,53 @@
-# Semana 11 JavaScript — Asincronía, APIs y Node.js
+# Semana 12 - Día de cierre de brechas
 
-Este proyecto parte de **Semana 10 JS**. Conserva el marketplace, carrito, calculadoras y lista de tareas, y agrega ejemplos completos de promesas, `async/await`, `fetch`, manejo de errores y un servidor local con Node.js.
+Este proyecto transforma el marketplace acumulativo en un laboratorio de diagnóstico y práctica. No introduce un tema nuevo: permite comprobar y reforzar **Sintaxis JS**, **DOM y eventos**, **Grid/Tailwind** y **sitio estático + deploy**.
 
-## Objetivos de aprendizaje
-
-- Entender la diferencia entre iniciar una operación y recibir su resultado.
-- Reconocer los estados de una promesa: `pending`, `fulfilled` y `rejected`.
-- Consumir promesas con `.then()`, `.catch()` y `.finally()`.
-- Reescribir el mismo flujo con `async/await` y `try/catch/finally`.
-- Consultar una API pública con `fetch()` y mostrar el resultado en el DOM.
-- Revisar `response.ok` y manejar errores HTTP o de red.
-- Comprender qué hacen Node.js, npm, `package.json`, `localhost` y un puerto.
-
-## Cómo ejecutar
-
-Requiere Node.js instalado. Desde esta carpeta:
+## Ejecución
 
 ```bash
 npm start
 ```
 
-Abre `http://localhost:3000`. No hay dependencias externas que instalar; se usa el módulo nativo `http` de Node.js.
+Abre `http://localhost:3000`. Para validar la sintaxis usa `npm run check`.
 
-Para comprobar la sintaxis:
+## Recorrido
 
-```bash
-npm run check
-```
+1. **Semáforo:** autoevaluación local por tema, conservada con `localStorage`.
+2. **Sintaxis:** repara coerción de tipos, operadores y variables sin declarar.
+3. **DOM:** cuenta, filtra y persiste tareas al recargar.
+4. **Grid/Tailwind:** cambia columnas y compara el CSS con clases utilitarias.
+5. **Deploy:** verifica archivos, consola, rutas, Git y URL pública.
+6. **Plan personal:** registra la brecha, aplicación y recurso de práctica.
 
-## Ejemplo 1: PokéAPI con `fetch` y `async/await`
+## Respuestas clave
 
-El formulario busca un Pokémon por nombre o número. El flujo es:
+- `const` por defecto; `let` cuando el valor cambia; `var` se evita por su alcance de función y hoisting.
+- `"5" + 3` produce `"53"`; `"5" - 3` produce `2`.
+- `querySelector()` devuelve la primera coincidencia; `querySelectorAll()` devuelve todas.
+- `preventDefault()` evita la recarga predeterminada de un formulario.
+- `textContent` inserta texto; `innerHTML` interpreta HTML y es riesgoso con datos del usuario.
+- Flexbox organiza principalmente en una dimensión; Grid trabaja con filas y columnas.
+- `repeat(3, 1fr)` crea tres columnas iguales; Tailwind usa `p-4` para padding.
+- GitHub Pages publica desde un repositorio; Netlify ofrece despliegue manual o conectado y más configuración.
 
-1. Se ejecuta `fetch(url)`, que devuelve una promesa.
-2. El primer `await` espera la respuesta HTTP.
-3. Se verifica `respuesta.ok`; un `404` no genera automáticamente un rechazo de `fetch`.
-4. `respuesta.json()` devuelve otra promesa; se espera para obtener el objeto JavaScript.
-5. Los datos se muestran con `textContent` y la imagen oficial se asigna mediante `src`.
-6. `catch` muestra los errores y `finally` vuelve a habilitar el botón.
+## Retos por ritmo
 
-La consulta utiliza `https://pokeapi.co/api/v2/pokemon/{nombre}`. Requiere conexión a internet.
+- **Mínimo:** cálculo correcto, contador, tres columnas y publicación básica.
+- **Medio:** validar tipos, filtrar tareas, grid responsive y probar el deploy externamente.
+- **Extendido:** `localStorage`, combinación Grid/Flex y diagnóstico de rutas 404.
 
-## Ejemplo 2: envío asíncrono de correo
+## Archivos
 
-`enviarCorreoConfirmacion()` crea una promesa con `new Promise()`. Un `setTimeout` de dos segundos representa la espera de un proveedor externo de correo.
+- `index.html`: laboratorio y marketplace acumulativo.
+- `styles.css`: Grid responsive, estados y diseño original.
+- `calculos.js`: ejercicios, DOM y persistencia.
+- `servidor.js`: servidor local con respuestas 200/403/404.
+- `package.json`: scripts `start` y `check`.
 
-- La promesa se **resuelve** cuando hay un correo válido y productos en el carrito.
-- La promesa se **rechaza** cuando el carrito está vacío o el correo no es válido.
-- El botón **Enviar con .then()** usa `.then()`, `.catch()` y `.finally()`.
-- El botón **Enviar con async/await** consume exactamente la misma promesa mediante `await`, `try`, `catch` y `finally`.
+## Evidencia personal
 
-El envío es una simulación educativa: no transmite datos, no usa credenciales y no envía mensajes reales.
+Responde en tu README:
 
-## Ejemplo 3: servidor Node.js
-
-`servidor.js` ejecuta JavaScript fuera del navegador. El servidor:
-
-- Escucha solicitudes en el puerto `3000`.
-- Entrega `index.html`, CSS y JavaScript.
-- Devuelve estado `404` si el archivo solicitado no existe.
-
-`localhost:3000` significa “esta computadora, puerto 3000”. El archivo `package.json` identifica el proyecto y define los comandos de npm.
-
-## Relación con Semana 10
-
-Se conservaron:
-
-- Selección y modificación del DOM.
-- Eventos `click`, `submit`, `input` y `keydown`.
-- Carrito dinámico y control de stock.
-- Calculadoras de descuento, impuesto y total.
-- To-do list con creación, marcado y eliminación.
-
-Semana 11 añade operaciones cuyo resultado no existe inmediatamente. Mientras PokéAPI o el correo simulado responden, la interfaz continúa activa.
-
-## Archivos principales
-
-- `index.html`: interfaz del marketplace y demostraciones asíncronas.
-- `styles.css`: estilos base y estados de carga, éxito y error.
-- `calculos.js`: DOM, carrito, promesas, `async/await` y PokéAPI.
-- `servidor.js`: servidor HTTP local.
-- `package.json`: identidad del proyecto y scripts npm.
-
-## Pruebas sugeridas
-
-1. Busca `pikachu` y luego un nombre inexistente para comparar éxito y error.
-2. Intenta enviar el correo con el carrito vacío: la promesa debe rechazarse.
-3. Agrega un producto y prueba ambos botones de correo: deben producir el mismo resultado usando sintaxis diferente.
-4. Comprueba que los botones se deshabilitan durante la espera y se restauran en `finally`.
-5. Visita `http://localhost:3000/archivo-inexistente` para observar una respuesta 404.
+1. ¿Qué tema necesito reforzar?
+2. ¿Dónde lo aplicaré en mi proyecto?
+3. ¿Qué recurso usaré para practicar?

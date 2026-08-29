@@ -3,21 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Semana 11 JavaScript | Asincronía y Node.js</title>
+    <title>Semana 12 JavaScript | Cierre de brechas</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header class="encabezado" id="inicio"><div class="contenedor">
-        <p class="semana">Semana 11 JavaScript</p><h1>MarketPlace Creativo</h1>
-        <p>Promesas, async/await, PokéAPI y un primer servidor con Node.js.</p>
+        <p class="semana">Semana 12 JavaScript</p><h1>Laboratorio de cierre de brechas</h1>
+        <p>Diagnostica, practica y aplica: sintaxis JS, DOM y eventos, Grid/Tailwind y deploy.</p>
     </div></header>
 
     <nav class="navegacion" aria-label="Navegación principal"><div class="contenedor menu">
-        <a href="#inicio">Inicio</a><a href="#productos">Productos</a><a href="#carrito">Carrito</a>
-        <a href="#pokemon">PokéAPI</a><a href="#correo">Correo async</a><a href="#calculadora">Calculadora</a>
+        <a href="#diagnostico">Diagnóstico</a><a href="#sintaxis">Sintaxis</a><a href="#dom-reto">DOM</a>
+        <a href="#grid-reto">Grid</a><a href="#deploy-reto">Deploy</a><a href="#plan">Mi plan</a>
     </div></nav>
 
     <main>
+        <section id="diagnostico" class="seccion-cierre"><div class="contenedor">
+            <div class="titulo-seccion"><p class="etiqueta">Paso 1 · Diagnóstico</p><h2>Semáforo de dominio</h2>
+                <p>No es un examen. Marca cómo te sientes en cada tema para decidir dónde practicar más.</p></div>
+            <div id="semaforoDominio" class="grid-diagnostico">
+                <label>Sintaxis JS<select data-tema="sintaxis"><option value="verde">🟢 Lo domino</option><option value="amarillo">🟡 Necesito practicar</option><option value="rojo">🔴 No lo entiendo</option></select></label>
+                <label>DOM y eventos<select data-tema="dom"><option value="verde">🟢 Lo domino</option><option value="amarillo">🟡 Necesito practicar</option><option value="rojo">🔴 No lo entiendo</option></select></label>
+                <label>Grid y Tailwind<select data-tema="grid"><option value="verde">🟢 Lo domino</option><option value="amarillo">🟡 Necesito practicar</option><option value="rojo">🔴 No lo entiendo</option></select></label>
+                <label>Sitio y deploy<select data-tema="deploy"><option value="verde">🟢 Lo domino</option><option value="amarillo">🟡 Necesito practicar</option><option value="rojo">🔴 No lo entiendo</option></select></label>
+            </div>
+            <p id="resumenDiagnostico" class="resultado" aria-live="polite"></p>
+        </div></section>
+
+        <section id="sintaxis" class="seccion-panel"><div class="contenedor panel">
+            <div class="titulo-seccion"><p class="etiqueta">Bloque 1</p><h2>Repara la mini-librería</h2>
+                <p>Comprueba tipos y operadores. La fórmula correcta es <code>precio - precio * (porcentaje / 100)</code>.</p></div>
+            <form id="formRetoSintaxis" class="reto-form">
+                <label for="retoPrecio">Precio</label><input id="retoPrecio" type="text" value="50000">
+                <label for="retoPorcentaje">Porcentaje</label><input id="retoPorcentaje" type="text" value="10">
+                <button class="boton" type="submit">Validar y calcular</button>
+            </form>
+            <pre class="codigo-error"><code>if (porcentaje == "0") return precio;
+const descuento = precio * porcentaje + "100";
+total = precio - descuento;</code></pre>
+            <p id="resultadoRetoSintaxis" class="resultado" aria-live="polite">Predice el resultado antes de ejecutar.</p>
+        </div></section>
+
+        <section id="dom-reto" class="seccion-cierre"><div class="contenedor">
+            <div class="titulo-seccion"><p class="etiqueta">Bloque 2</p><h2>DOM y eventos: filtra la lista</h2>
+                <p>La lista del marketplace ahora cuenta pendientes, filtra estados y persiste en <code>localStorage</code>.</p></div>
+            <div class="filtros-tareas" role="group" aria-label="Filtros de tareas">
+                <button class="boton filtro-activo" type="button" data-filtro="todas">Todas</button>
+                <button class="boton boton-secundario" type="button" data-filtro="pendientes">Pendientes</button>
+                <button class="boton boton-secundario" type="button" data-filtro="completadas">Completadas</button>
+            </div>
+            <p class="nota-reto">Práctica: agrega, completa y elimina tareas en la sección “Lista de tareas de compra”.</p>
+        </div></section>
+
+        <section id="grid-reto" class="seccion-panel"><div class="contenedor panel">
+            <div class="titulo-seccion"><p class="etiqueta">Bloque 3</p><h2>Grid, Flexbox y clases utilitarias</h2>
+                <p>Grid organiza filas y columnas; Flexbox alinea en una dirección. Cambia las columnas para observarlo.</p></div>
+            <label class="control-grid" for="columnasDemo">Columnas del ejemplo
+                <select id="columnasDemo"><option value="1">1 columna</option><option value="2">2 columnas</option><option value="3" selected>3 columnas</option></select></label>
+            <div id="demoGrid" class="demo-grid"><article>Tarjeta 1<br><code>p-4 shadow</code></article><article>Tarjeta 2<br><code>p-4 shadow</code></article><article>Tarjeta 3<br><code>p-4 shadow</code></article></div>
+            <p class="resultado">Equivalente Tailwind: <code>grid grid-cols-1 md:grid-cols-3 gap-4</code>.</p>
+        </div></section>
+
+        <section id="deploy-reto" class="seccion-cierre"><div class="contenedor">
+            <div class="titulo-seccion"><p class="etiqueta">Bloque 4</p><h2>Checklist antes del deploy</h2>
+                <p>Un sitio estático funciona con HTML, CSS y JavaScript. Verifica cada punto antes de GitHub Pages o Netlify.</p></div>
+            <div id="checklistDeploy" class="checklist-deploy">
+                <label><input type="checkbox" value="html"> `index.html` abre correctamente</label>
+                <label><input type="checkbox" value="css"> CSS enlazado y responsive</label>
+                <label><input type="checkbox" value="js"> Consola sin errores</label>
+                <label><input type="checkbox" value="rutas"> Rutas relativas verificadas</label>
+                <label><input type="checkbox" value="git"> Commit y push realizados</label>
+                <label><input type="checkbox" value="url"> URL pública probada en otro dispositivo</label>
+            </div>
+            <p id="progresoDeploy" class="resultado" aria-live="polite">0 de 6 verificaciones completas.</p>
+        </div></section>
+
+        <section id="plan" class="seccion-panel"><div class="contenedor panel">
+            <div class="titulo-seccion"><p class="etiqueta">Aplicación al proyecto</p><h2>Mi plan para cerrar una brecha</h2></div>
+            <form id="formPlanBrecha" class="plan-form">
+                <label for="temaBrecha">Tema que debo reforzar</label><select id="temaBrecha"><option>Sintaxis JS</option><option>DOM y eventos</option><option>Grid y Tailwind</option><option>Sitio estático y deploy</option></select>
+                <label for="aplicacionBrecha">¿Dónde lo aplicaré en mi proyecto?</label><textarea id="aplicacionBrecha" required placeholder="Ej.: convertir el catálogo en un grid responsive"></textarea>
+                <label for="recursoBrecha">Recurso de práctica</label><input id="recursoBrecha" required placeholder="Ej.: MDN, freeCodeCamp o mentoría">
+                <button class="boton" type="submit">Guardar mi plan</button>
+            </form>
+            <p id="estadoPlan" class="resultado" aria-live="polite">Tu plan se guardará en este navegador.</p>
+        </div></section>
+
         <section class="presentacion"><div class="contenedor"><h2>Productos destacados</h2>
             <p>Agrega productos al carrito y observa cómo JavaScript modifica el DOM.</p>
         </div></section>
@@ -129,7 +200,7 @@
     </main>
 
     <footer class="pie-pagina"><div class="contenedor"><h2>MarketPlace Creativo</h2>
-        <p>Proyecto de la Semana 11: asincronía, APIs y Node.js.</p></div></footer>
+        <p>Semana 12: diagnóstico, práctica y plan personal de cierre de brechas.</p></div></footer>
     <script type="module" src="calculos.js"></script>
 </body>
 </html>
